@@ -2,8 +2,16 @@ package com.macys.common.pricing;
 
 /*
   @created 7/2/21
-  @Author b008245 - Meeravali Shaik 
+  @Author  - Meeravali Shaik 
  */
+
+/*
+
+Command to trigger on GCP
+  
+  gcloud dataproc jobs submit spark --cluster=spark-cluster --class=com.macys.common.pricing.CsvReader --jars=gs://prod-sku-striim-data/csv-spark-latest-bundled-1.0-SNAPSHOT.jar --project= --region=us-central1 --properties='spark.hadoop.gcs.bucket.path=gs://prod-sku-striim-data/,spark.hadoop.spanner.fileName=prodsku_07_10_spanner.csv,spark.hadoop.prodsku.fileName=prodsku_07_10_db2.csv,spark.hadoop.date.filter=2021-07-10 20:00:00' --id=prod-sku-csv-comparision-job-07-12
+
+*/
 
 import java.time.LocalDate;
 import java.util.Date;
