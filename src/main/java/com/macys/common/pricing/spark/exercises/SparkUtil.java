@@ -7,6 +7,8 @@ package com.macys.common.pricing.spark.exercises;
 
 /*
 https://towardsdatascience.com/six-spark-exercises-to-rule-them-all-242445b24565
+https://jaceklaskowski.github.io/spark-workshop/exercises/
+
  */
 
 import org.apache.spark.sql.Dataset;

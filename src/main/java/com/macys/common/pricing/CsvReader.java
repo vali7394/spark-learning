@@ -25,11 +25,11 @@ import static org.apache.spark.sql.functions.to_timestamp;
 public class CsvReader {
 
     public static void main(String[] args) {
-      /*  SparkSession session = SparkSession.builder().master("local[*]").appName("CSV-READER")
+        SparkSession session = SparkSession.builder().master("local[*]").appName("CSV-READER")
             .config("spark.driver.host", "127.0.0.1")
-            .getOrCreate();*/
-       SparkSession session = SparkSession.builder().appName("CSV-READER")
             .getOrCreate();
+      /* SparkSession session = SparkSession.builder().appName("CSV-READER")
+            .getOrCreate();*/
         Configuration configuration = session.sessionState().newHadoopConf();
         String storagePath = configuration.get("gcs.bucket.path","gs://prod-sku-striim-data/");
         String prodSkuFilePath = configuration.get("prodsku.fileName", "prod-sku-test.csv");
@@ -44,15 +44,15 @@ public class CsvReader {
             .option("header", "true")
             .csv(storagePath+spannerFilePth);
         System.out.println("Spanner Skus" + spannerProdSku.count());
-        Dataset<Row> rowsMissingInSpanner = onPremProdSku.join(spannerProdSku,onPremProdSku.col("SKU_UPC_NBR").equalTo(spannerProdSku.col("SkuUpcNbr")),"left_anti")
-            .where(onPremProdSku.col("LAST_UPD_TS").cast("timestamp").lt(to_timestamp(lit(dateFilter))));
+        Dataset<Row> rowsMissingInSpanner = onPremProdSku.join(spannerProdSku,onPremProdSku.col("Sku_Upc_Nbr").equalTo(spannerProdSku.col("SkuUpcNbr")),"left_anti")
+            .where(onPremProdSku.col("last_upd_Ts").cast("timestamp").lt(to_timestamp(lit(dateFilter))));
         /* Dataset<Row> rowsMissingInSpanner = onPremProdSku.join(spannerProdSku,onPremProdSku.col("SkuUpcNbr").equalTo(spannerProdSku.col("SkuUpcNbr")))
             .where(spannerProdSku.col("SkuUpcNbr").isNull())
             .select(onPremProdSku.col("SkuUpcNbr"),onPremProdSku.col("LastUpdTs"));*/
         rowsMissingInSpanner.write()
             .format("csv")
             .mode(SaveMode.Overwrite)
-            .save(storagePath+ "result-"+ LocalDate.now());
+            .save(storagePath+ "result"+ LocalDate.now());
     }
 
 

@@ -58,8 +58,10 @@ public class SparkExerciseOne {
       //  orderData.printSchema();
         Row[] highVolProducts = (Row[]) orderData.groupBy(col("product_id")).agg(count("*").as("Product_count"))
             .sort(col("Product_count").desc())
-            .limit(100)
+            .limit(10)
             .collect();
+
+        orderData.cache();
 
         List<String> replicated_products = new ArrayList<>();
         List<Row> l = new ArrayList<>();
